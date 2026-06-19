@@ -11,6 +11,26 @@
 <meta property="og:url" content="https://manosdeconfianza.es">
 <meta property="og:image" content="https://manosdeconfianza.es/assets/rooms/kitchen-after.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Manos de Confianza — Renovation you can trust">
+<meta name="twitter:description" content="Trusted renovation and maintenance for foreign property owners in Spain. Valencia, Alicante, Costa Blanca.">
+<meta name="twitter:image" content="https://manosdeconfianza.es/assets/rooms/kitchen-after.jpg">
+<meta name="keywords" content="reformas Valencia, reformas Alicante, reformas Costa Blanca, renovation Spain, home renovation Valencia, property maintenance Spain, builders for foreign owners, reformas para extranjeros, mantenimiento de propiedades, reformas llave en mano, Manos de Confianza, Key4Spain">
+<meta name="author" content="Manos de Confianza — Key4Spain">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="googlebot" content="index, follow">
+<link rel="canonical" href="https://manosdeconfianza.es/">
+<meta name="geo.region" content="ES-VC">
+<meta name="geo.placename" content="Valencia, Alicante, Costa Blanca">
+<meta name="theme-color" content="#bd6038">
+<meta property="og:site_name" content="Manos de Confianza">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="714">
+<meta property="og:image:alt" content="A Spanish home before and after renovation by Manos de Confianza">
+<link rel="alternate" hreflang="es" href="https://manosdeconfianza.es/">
+<link rel="alternate" hreflang="en" href="https://manosdeconfianza.es/">
+<link rel="alternate" hreflang="x-default" href="https://manosdeconfianza.es/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23bd6038'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23faf6ee' font-family='Georgia,serif'>M</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +51,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-  #bg-canvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
+  #bg-canvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;opacity:1;transition:opacity .7s ease}
   .veil{position:fixed;inset:0;z-index:1;pointer-events:none;
     background:linear-gradient(180deg, rgba(250,246,238,.38) 0%, rgba(250,246,238,.44) 55%, rgba(250,246,238,.52) 100%);}
   nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
@@ -123,6 +143,36 @@
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease, transform .9s ease}
   .reveal.in{opacity:1;transform:none}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "@id": "https://manosdeconfianza.es/#business",
+  "name": "Manos de Confianza",
+  "description": "Trusted renovation and maintenance for foreign property owners in Spain. We find verified builders, agree everything in person at the property, run the work and send a daily progress video. Service in your language.",
+  "url": "https://manosdeconfianza.es/",
+  "image": "https://manosdeconfianza.es/assets/rooms/kitchen-after.jpg",
+  "email": "info@manosdeconfianza.es",
+  "priceRange": "€€",
+  "knowsLanguage": ["es", "en"],
+  "areaServed": [
+    {"@type": "Place", "name": "Valencia"},
+    {"@type": "Place", "name": "Alicante"},
+    {"@type": "Place", "name": "Costa Blanca"}
+  ],
+  "address": {"@type": "PostalAddress", "addressRegion": "Comunidad Valenciana", "addressCountry": "ES"},
+  "parentOrganization": {"@type": "Organization", "name": "Key4Spain", "url": "https://key4spain.com"},
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Renovation and maintenance services",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Reformas / Renovation", "description": "Whole homes or a single room, from bare to finished: kitchens, bathrooms, flooring, painting, electrics, plumbing, damp sealing, windows and doors, carpentry, tiling, air conditioning."}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mantenimiento / Maintenance", "description": "Repairs, small jobs, seasonal check-ups, property watch while away and emergency call-out for houses and apartments."}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Exteriores / Outdoors", "description": "Gardens, yards, patios, terraces, exterior painting, fencing and gates, outdoor lighting and paving."}}
+    ]
+  }
+}
+</script>
 </head>
 <body>
 <canvas id="bg-canvas"></canvas>
@@ -418,9 +468,11 @@ document.getElementById('leadform').addEventListener('submit',function(ev){
 /* renovation 3D, one scene per section, all kept off centre so the text stays clear */
 (function(){
   var canvas=document.getElementById('bg-canvas');
+  /* 3D is decorative: skip it on phones/tablets (avoids stray geometry + saves battery) */
+  if(window.matchMedia('(max-width:820px)').matches){ canvas.style.display='none'; return; }
   var renderer;
   try{ renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true}); }
-  catch(err){ return; }
+  catch(err){ canvas.style.display='none'; return; }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.setSize(window.innerWidth,window.innerHeight);
   renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -532,7 +584,8 @@ document.getElementById('leadform').addEventListener('submit',function(ev){
   var dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xc4974f,size:0.03,transparent:true,opacity:0.35}));
   scene.add(dust);
 
-  function show(idx){ groups.forEach(function(g,i){ if(g) g.visible=(i===idx); }); scan.visible=(idx===0||idx===3); }
+  /* show the 3D building ONLY on the hero; fade it out on every content section so no stray geometry peeks behind text/cards */
+  function show(idx){ groups.forEach(function(g,i){ if(g) g.visible=(i===idx); }); scan.visible=(idx===0||idx===3); canvas.style.opacity=(idx===0)?'1':'0'; }
   var current=0; show(0);
 
   var sceneSecs=[].slice.call(document.querySelectorAll('section[data-scene]'));
@@ -584,6 +637,12 @@ document.getElementById('leadform').addEventListener('submit',function(ev){
     renderer.setSize(window.innerWidth,window.innerHeight);
   });
 })();
+</script>
+
+<!-- Metricool tracking — Key4Spain brand (swap hash when a dedicated Manos de Confianza brand is created) -->
+<script>
+  function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}
+  loadScript(function(){beTracker.t({hash:"5a08ce465d278a37230340ead8e1ed67"})});
 </script>
 </body>
 </html>
