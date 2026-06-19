@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manos de Confianza</title>
+<meta name="description" content="Trusted renovation and maintenance for property owners in Spain. Verified builders, design proposals, daily progress video and coordination in your language. Valencia, Alicante, Costa Blanca.">
+<meta property="og:title" content="Manos de Confianza">
+<meta property="og:description" content="Trusted renovation and maintenance for foreign property owners in Spain.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://manosdeconfianza.es">
+<meta property="og:image" content="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_200817_082971fd-702e-4106-a335-cb7a7adfc295.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23bd6038'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23faf6ee' font-family='Georgia,serif'>M</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf6ee;          /* warm cream */
+    --bg2:#f3ebdd;
+    --ink:#2b2620;         /* warm near black text */
+    --ink-soft:#7d7568;
+    --terra:#bd6038;       /* terracotta */
+    --terra-deep:#a14e2c;
+    --gold:#c4974f;        /* warm gold */
+    --sage:#7f9089;        /* soft mediterranean green */
+    --line:rgba(43,38,32,.12);
+    --card:rgba(255,253,248,.72);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  #bg-canvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
+  .veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg, rgba(250,246,238,.38) 0%, rgba(250,246,238,.44) 55%, rgba(250,246,238,.52) 100%);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;backdrop-filter:blur(8px);background:linear-gradient(180deg,rgba(250,246,238,.85),rgba(250,246,238,.2))}
+  .brand{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;letter-spacing:.4px;color:var(--ink)}
+  .brand span{color:var(--terra)}
+  .nav-right{display:flex;align-items:center;gap:22px}
+  .nav-links{display:flex;gap:24px}
+  .nav-links a{color:var(--ink-soft);text-decoration:none;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;transition:color .25s}
+  .nav-links a:hover{color:var(--terra)}
+  .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .lang button{background:transparent;border:0;color:var(--ink-soft);font-size:12px;padding:5px 12px;cursor:pointer;font-family:inherit}
+  .lang button.active{background:var(--terra);color:#fff;font-weight:600}
+  @media(max-width:820px){.nav-links{display:none}}
+  main{position:relative;z-index:10}
+  section{min-height:100vh;display:flex;align-items:center;padding:120px 8vw;position:relative}
+  .panel{max-width:580px}
+  .kicker{font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--terra);margin-bottom:18px;display:flex;align-items:center;gap:12px;font-weight:600}
+  .kicker::before{content:"";width:34px;height:1px;background:var(--terra)}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(46px,7.2vw,92px);line-height:1.0;letter-spacing:-.5px;margin-bottom:24px}
+  h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,5vw,62px);line-height:1.04;margin-bottom:20px}
+  .lead{font-size:clamp(16px,1.45vw,19px);line-height:1.7;color:var(--ink-soft);font-weight:400;max-width:50ch}
+  .tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .tag{border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;color:var(--ink);background:var(--card)}
+  .cta{display:inline-flex;align-items:center;gap:9px;margin-top:34px;background:var(--terra);color:#fff;
+    text-decoration:none;font-weight:600;font-size:15px;padding:15px 30px;border-radius:999px;transition:transform .2s, box-shadow .2s;box-shadow:0 12px 30px -12px rgba(189,96,56,.65);border:0;cursor:pointer}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 18px 40px -12px rgba(189,96,56,.75)}
+  .cta.ghost{background:transparent;color:var(--terra);border:1px solid var(--terra);box-shadow:none}
+  .scrollcue{position:absolute;bottom:34px;left:8vw;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);display:flex;gap:10px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(6px);opacity:1}}
+  .align-right .panel{margin-left:auto;text-align:right}
+  .align-right .kicker{justify-content:flex-end}
+  .align-right .kicker::before{order:2}
+  .align-right .tags{justify-content:flex-end}
+  .strip{min-height:auto;padding:34px 8vw;justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card)}
+  .strip-inner{display:flex;flex-wrap:wrap;gap:14px 40px;align-items:center;justify-content:center;color:var(--ink-soft);font-size:14px;letter-spacing:.03em}
+  .strip-inner b{color:var(--ink);font-weight:600}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--terra)}
+  /* visualize / before-after */
+  .viz{flex-direction:column;align-items:center;text-align:center;background:transparent}
+  .viz .panel{max-width:720px;text-align:center}
+  .viz .kicker{justify-content:center}
+  .viz .kicker::before{display:none}
+  .ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:26px;width:100%;max-width:1060px;margin-top:48px}
+  @media(max-width:880px){.ba-wrap{grid-template-columns:1fr}}
+  .ba{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 26px 60px -28px rgba(43,38,32,.45);aspect-ratio:16/9;background:#ddd;user-select:none}
+  .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+  .ba .after{clip-path:inset(0 0 0 50%)}
+  .ba input[type=range]{position:absolute;left:0;bottom:14px;width:100%;margin:0;-webkit-appearance:none;background:transparent;z-index:5;cursor:ew-resize}
+  .ba input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--terra);box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:ew-resize}
+  .ba input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--terra);cursor:ew-resize}
+  .ba .divider{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-1px);pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+  .ba .lbl{position:absolute;top:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(43,38,32,.55);padding:5px 11px;border-radius:999px;z-index:4}
+  .ba .lbl.b{left:12px}.ba .lbl.a{right:12px}
+  .ba-cap{margin-top:14px;font-size:13.5px;color:var(--ink-soft)}
+  .example-note{margin-top:18px;font-size:12.5px;color:var(--ink-soft);opacity:.8}
+  /* services grid */
+  .svc{flex-direction:column;align-items:flex-start;gap:36px}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:100%;max-width:1120px}
+  @media(max-width:880px){.svc-grid{grid-template-columns:1fr}}
+  .svc-card{border:1px solid var(--line);border-radius:18px;padding:30px;background:var(--card);backdrop-filter:blur(4px)}
+  .svc-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;margin-bottom:6px}
+  .svc-card .sub{font-size:13px;color:var(--terra);font-weight:600;letter-spacing:.04em;margin-bottom:16px}
+  .svc-card ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .svc-card li{font-size:13px;color:var(--ink);background:rgba(43,38,32,.04);border:1px solid var(--line);border-radius:8px;padding:6px 11px}
+  .svc-card.soon{border-style:dashed;opacity:.92}
+  .soonbadge{display:inline-block;border:1px dashed var(--terra);color:var(--terra);border-radius:999px;padding:5px 14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+  .pk-n{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold);line-height:1;margin-bottom:8px}
+  .pk-p{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin-bottom:16px}
+  .svc-p{font-size:14px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1060px;width:100%}
+  @media(max-width:880px){.steps{grid-template-columns:1fr}}
+  .step{border:1px solid var(--line);border-radius:16px;padding:30px;background:var(--card)}
+  .step .n{font-family:'Cormorant Garamond',serif;font-size:44px;color:var(--gold);line-height:1}
+  .step h3{font-size:19px;font-weight:600;margin:12px 0 10px}
+  .step p{color:var(--ink-soft);font-size:15px;line-height:1.65}
+  .formwrap{max-width:540px;width:100%}
+  form{display:grid;gap:13px;margin-top:26px}
+  input,textarea{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-family:inherit;font-size:15px;resize:vertical}
+  input::placeholder,textarea::placeholder{color:var(--ink-soft)}
+  input:focus,textarea:focus{outline:none;border-color:var(--terra)}
+  footer{position:relative;z-index:10;padding:48px 8vw;border-top:1px solid var(--line);background:var(--bg2);color:var(--ink-soft);font-size:13px;line-height:1.75}
+  footer .fbrand{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink);margin-bottom:8px}
+  footer .fbrand span{color:var(--terra)}
+  .hidden-es{display:none}
+  body.es .hidden-en{display:none}
+  body.es .hidden-es{display:inline}
+  body.es .tag.hidden-es,body.es .svc-card li.hidden-es{display:inline-block}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease, transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="veil"></div>
+
+<nav>
+  <div class="brand">Manos de <span>Confianza</span></div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#visualize"><span class="hidden-en">Visualize</span><span class="hidden-es">Visualiza</span></a>
+      <a href="#services"><span class="hidden-en">Services</span><span class="hidden-es">Servicios</span></a>
+      <a href="#offers"><span class="hidden-en">How we work</span><span class="hidden-es">Cómo</span></a>
+      <a href="#contact"><span class="hidden-en">Early access</span><span class="hidden-es">Acceso</span></a>
+    </div>
+    <div class="lang"><button id="btn-en" class="active">EN</button><button id="btn-es">ES</button></div>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section id="hero" data-scene="0">
+    <div class="panel reveal">
+      <div class="kicker"><span class="hidden-en">Renovation and maintenance in Spain</span><span class="hidden-es">Reformas y mantenimiento en España</span></div>
+      <h1><span class="hidden-en">Renovation<br>you can trust.</span><span class="hidden-es">Reformas en<br>manos de confianza.</span></h1>
+      <p class="lead"><span class="hidden-en">We find the right builders, agree it all with you in person, run the work and send you photos along the way. You do not need to be in Spain. We take care of it for you.</span><span class="hidden-es">Encontramos a los profesionales adecuados, lo acordamos todo contigo en persona, llevamos la obra y te enviamos fotos del avance. No necesitas estar en España. Nos ocupamos por ti.</span></p>
+      <a class="cta" href="#visualize"><span class="hidden-en">See your home renovated</span><span class="hidden-es">Ve tu casa renovada</span> →</a>
+    </div>
+    <div class="scrollcue"><span class="hidden-en">Scroll</span><span class="hidden-es">Desliza</span> ↓</div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="strip" data-scene="keep">
+    <div class="strip-inner reveal">
+      <span><span class="hidden-en">Part of the</span><span class="hidden-es">Parte de la red</span> <b>Key4Spain</b> <span class="hidden-en">network</span></span>
+      <span class="dot"></span><b>Valencia</b><span class="dot"></span><b>Alicante</b><span class="dot"></span><b>Costa Blanca</b>
+    </div>
+  </section>
+
+  <!-- VISUALIZE / BEFORE-AFTER (flagship) -->
+  <section id="visualize" class="viz" data-scene="1">
+    <div class="panel reveal">
+      <div class="kicker"><span class="hidden-en">See it first</span><span class="hidden-es">Velo primero</span></div>
+      <h2><span class="hidden-en">See your home renovated,<br>before you spend a euro.</span><span class="hidden-es">Ve tu casa renovada,<br>antes de gastar un euro.</span></h2>
+      <p class="lead" style="margin:0 auto"><span class="hidden-en">Send us a few photos of your space. We create a realistic picture of how it could look once it is done, so you can decide with your own eyes instead of a guess. Drag the slider to see the idea.</span><span class="hidden-es">Envíanos unas fotos de tu espacio. Creamos una imagen realista de cómo podría quedar una vez terminado, para que decidas con tus propios ojos y no a ciegas. Arrastra el control para ver la idea.</span></p>
+    </div>
+
+    <div class="ba-wrap reveal">
+      <div>
+        <div class="ba" data-ba>
+          <img class="before" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_200637_85681784-8738-41d3-8b95-5996902d4f2b.png" alt="Kitchen before">
+          <img class="after" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_200817_082971fd-702e-4106-a335-cb7a7adfc295.png" alt="Kitchen after">
+          <div class="divider"></div>
+          <span class="lbl b"><span class="hidden-en">Now</span><span class="hidden-es">Ahora</span></span>
+          <span class="lbl a"><span class="hidden-en">After</span><span class="hidden-es">Después</span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="before after">
+        </div>
+        <div class="ba-cap"><span class="hidden-en">Kitchen</span><span class="hidden-es">Cocina</span></div>
+      </div>
+      <div>
+        <div class="ba" data-ba>
+          <img class="before" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_200825_9a46b4fa-ac19-4cc7-9b68-5691332124d0.png" alt="Living room before">
+          <img class="after" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_200909_235c7224-0e16-403a-9e3b-8f64f1a23e9c.png" alt="Living room after">
+          <div class="divider"></div>
+          <span class="lbl b"><span class="hidden-en">Now</span><span class="hidden-es">Ahora</span></span>
+          <span class="lbl a"><span class="hidden-en">After</span><span class="hidden-es">Después</span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="before after">
+        </div>
+        <div class="ba-cap"><span class="hidden-en">Living room</span><span class="hidden-es">Salón</span></div>
+      </div>
+      <div>
+        <div class="ba" data-ba>
+          <img class="before" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212103_ca3f5546-7210-4533-b436-32a78d04a8b4.png" alt="Bathroom before">
+          <img class="after" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212403_5998298e-fc50-4713-b982-f69ee2e3816b.png" alt="Bathroom after">
+          <div class="divider"></div>
+          <span class="lbl b"><span class="hidden-en">Now</span><span class="hidden-es">Ahora</span></span>
+          <span class="lbl a"><span class="hidden-en">After</span><span class="hidden-es">Después</span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="before after">
+        </div>
+        <div class="ba-cap"><span class="hidden-en">Bathroom</span><span class="hidden-es">Baño</span></div>
+      </div>
+      <div>
+        <div class="ba" data-ba>
+          <img class="before" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212104_248715ab-582a-48c9-9ce3-91bd9d5ddb63.png" alt="Bedroom before">
+          <img class="after" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212405_0bee9970-f966-4f73-84f0-0baf465cf576.png" alt="Bedroom after">
+          <div class="divider"></div>
+          <span class="lbl b"><span class="hidden-en">Now</span><span class="hidden-es">Ahora</span></span>
+          <span class="lbl a"><span class="hidden-en">After</span><span class="hidden-es">Después</span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="before after">
+        </div>
+        <div class="ba-cap"><span class="hidden-en">Bedroom</span><span class="hidden-es">Dormitorio</span></div>
+      </div>
+      <div>
+        <div class="ba" data-ba>
+          <img class="before" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212105_7db1cfb0-877c-4dec-a420-967b2b5a063b.png" alt="Terrace before">
+          <img class="after" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212408_5828aba8-7626-46fe-baaf-c55880c7d935.png" alt="Terrace after">
+          <div class="divider"></div>
+          <span class="lbl b"><span class="hidden-en">Now</span><span class="hidden-es">Ahora</span></span>
+          <span class="lbl a"><span class="hidden-en">After</span><span class="hidden-es">Después</span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="before after">
+        </div>
+        <div class="ba-cap"><span class="hidden-en">Terrace</span><span class="hidden-es">Terraza</span></div>
+      </div>
+      <div>
+        <div class="ba" data-ba>
+          <img class="before" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212107_aef47e04-8306-4179-8460-e543a52749c3.png" alt="Facade before">
+          <img class="after" src="https://d8j0ntlcm91z4.cloudfront.net/user_3EaXiyyPxQJeNGNsgq3mTPcqCyd/hf_20260619_212410_776fbf92-0b4b-451b-9388-b1a03b51e6c6.png" alt="Facade after">
+          <div class="divider"></div>
+          <span class="lbl b"><span class="hidden-en">Now</span><span class="hidden-es">Ahora</span></span>
+          <span class="lbl a"><span class="hidden-en">After</span><span class="hidden-es">Después</span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="before after">
+        </div>
+        <div class="ba-cap"><span class="hidden-en">Facade</span><span class="hidden-es">Fachada</span></div>
+      </div>
+    </div>
+    <div class="example-note"><span class="hidden-en">Example visuals. We make yours from your own photos.</span><span class="hidden-es">Imágenes de ejemplo. Las tuyas las hacemos a partir de tus fotos.</span></div>
+    <a class="cta" href="#contact" style="margin-top:30px"><span class="hidden-en">Send your photos</span><span class="hidden-es">Envía tus fotos</span> →</a>
+  </section>
+
+  <!-- SERVICES (expanded palette) -->
+  <section id="services" class="svc" data-scene="2">
+    <div class="panel reveal" style="max-width:720px">
+      <div class="kicker"><span class="hidden-en">What we do</span><span class="hidden-es">Qué hacemos</span></div>
+      <h2><span class="hidden-en">One contact.<br>The whole property.</span><span class="hidden-es">Un contacto.<br>Toda la propiedad.</span></h2>
+      <p class="lead"><span class="hidden-en">You send one message. We turn it into a plan, pick the right trades, agree it all at the property and run the schedule, from the first visit to the final clean. Inside the home and outside it.</span><span class="hidden-es">Nos escribes una vez. Lo convertimos en un plan, elegimos a los profesionales, lo acordamos todo en la propiedad y llevamos el calendario, desde la primera visita hasta la limpieza final. Por dentro y por fuera.</span></p>
+    </div>
+    <div class="svc-grid reveal">
+      <div class="svc-card">
+        <h3><span class="hidden-en">Renovation</span><span class="hidden-es">Reformas</span></h3>
+        <div class="sub"><span class="hidden-en">Inside the home</span><span class="hidden-es">Interior</span></div>
+        <p class="svc-p"><span class="hidden-en">Whole homes or a single room, taken from bare to finished.</span><span class="hidden-es">Casas enteras o una sola estancia, de obra bruta a acabado final.</span></p>
+        <ul>
+          <li class="hidden-en">Full apartments</li><li class="hidden-es">Pisos completos</li>
+          <li class="hidden-en">Bathrooms</li><li class="hidden-es">Baños</li>
+          <li class="hidden-en">Kitchens</li><li class="hidden-es">Cocinas</li>
+          <li class="hidden-en">Flooring</li><li class="hidden-es">Suelos</li>
+          <li class="hidden-en">Painting</li><li class="hidden-es">Pintura</li>
+          <li class="hidden-en">Electrics</li><li class="hidden-es">Electricidad</li>
+          <li class="hidden-en">Plumbing</li><li class="hidden-es">Fontanería</li>
+          <li class="hidden-en">Damp and sealing</li><li class="hidden-es">Humedades</li>
+          <li class="hidden-en">Windows and doors</li><li class="hidden-es">Ventanas y puertas</li>
+          <li class="hidden-en">Carpentry</li><li class="hidden-es">Carpintería</li>
+          <li class="hidden-en">Tiling</li><li class="hidden-es">Alicatado</li>
+          <li class="hidden-en">Air conditioning</li><li class="hidden-es">Climatización</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <h3><span class="hidden-en">Maintenance</span><span class="hidden-es">Mantenimiento</span></h3>
+        <div class="sub"><span class="hidden-en">Keeping it right</span><span class="hidden-es">Cuidado continuo</span></div>
+        <p class="svc-p"><span class="hidden-en">Small jobs and repairs handled fast, with one call.</span><span class="hidden-es">Trabajos pequeños y reparaciones resueltos rápido, con una llamada.</span></p>
+        <ul>
+          <li class="hidden-en">Repairs</li><li class="hidden-es">Reparaciones</li>
+          <li class="hidden-en">Small jobs</li><li class="hidden-es">Trabajos pequeños</li>
+          <li class="hidden-en">Seasonal check-ups</li><li class="hidden-es">Revisiones</li>
+          <li class="hidden-en">Property watch while away</li><li class="hidden-es">Vigilancia de la vivienda</li>
+          <li class="hidden-en">Emergency call-out</li><li class="hidden-es">Urgencias</li>
+          <li class="hidden-en">Houses and apartments</li><li class="hidden-es">Casas y pisos</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <h3><span class="hidden-en">Outdoors</span><span class="hidden-es">Exteriores</span></h3>
+        <div class="sub"><span class="hidden-en">Gardens and grounds</span><span class="hidden-es">Jardín y entorno</span></div>
+        <p class="svc-p"><span class="hidden-en">The garden, terrace and yard cared for to the same standard as inside.</span><span class="hidden-es">Jardín, terraza y patio cuidados con el mismo nivel que el interior.</span></p>
+        <ul>
+          <li class="hidden-en">Gardens</li><li class="hidden-es">Jardines</li>
+          <li class="hidden-en">Yards and patios</li><li class="hidden-es">Patios</li>
+          <li class="hidden-en">Terraces</li><li class="hidden-es">Terrazas</li>
+          <li class="hidden-en">Exterior painting</li><li class="hidden-es">Pintura exterior</li>
+          <li class="hidden-en">Fencing and gates</li><li class="hidden-es">Vallas y portones</li>
+          <li class="hidden-en">Outdoor lighting</li><li class="hidden-es">Iluminación exterior</li>
+          <li class="hidden-en">Paving</li><li class="hidden-es">Pavimentos</li>
+        </ul>
+      </div>
+    </div>
+    <div class="svc-grid reveal" style="grid-template-columns:1fr;max-width:1120px">
+      <div class="svc-card soon">
+        <span class="soonbadge"><span class="hidden-en">Coming soon</span><span class="hidden-es">Próximamente</span></span>
+        <h3><span class="hidden-en">Pools</span><span class="hidden-es">Piscinas</span></h3>
+        <p class="lead" style="font-size:15px"><span class="hidden-en">Pool building and care joins the list soon. If you want it for your property, tell us now and your interest moves it up the queue.</span><span class="hidden-es">La construcción y el cuidado de piscinas llegan pronto. Si la quieres para tu propiedad, dínoslo y tu interés la adelanta en la lista.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFERS / HOW WE WORK -->
+  <section id="offers" class="svc" data-scene="keep">
+    <div class="panel reveal" style="max-width:720px">
+      <div class="kicker"><span class="hidden-en">How we work</span><span class="hidden-es">Cómo trabajamos</span></div>
+      <h2><span class="hidden-en">Online for the idea.<br>In person for the deal.</span><span class="hidden-es">Online para la idea.<br>En persona para el trato.</span></h2>
+      <p class="lead"><span class="hidden-en">We never agree a builder or a price through a website. The real decisions happen at your property, face to face. Here is how a job goes with us.</span><span class="hidden-es">Nunca elegimos al profesional ni cerramos el precio por la web. Las decisiones reales se toman en tu propiedad, cara a cara. Así va un trabajo con nosotros.</span></p>
+    </div>
+    <div class="svc-grid reveal">
+      <div class="svc-card">
+        <div class="pk-n">I</div>
+        <h3><span class="hidden-en">Design proposal</span><span class="hidden-es">Propuesta de diseño</span></h3>
+        <div class="sub"><span class="hidden-en">Only if you want it</span><span class="hidden-es">Solo si la quieres</span></div>
+        <p class="pk-p"><span class="hidden-en">Send us photos and what you have in mind. If you want, our designers send back a proposal that shows how your space could look. It is an idea to react to, nothing is decided online.</span><span class="hidden-es">Envíanos fotos y qué tienes en mente. Si quieres, nuestros diseñadores te devuelven una propuesta que muestra cómo podría quedar tu espacio. Es solo un punto de partida, nada se decide online.</span></p>
+        <ul>
+          <li class="hidden-en">Your photos</li><li class="hidden-es">Tus fotos</li>
+          <li class="hidden-en">Designer proposal</li><li class="hidden-es">Propuesta de diseño</li>
+          <li class="hidden-en">Optional</li><li class="hidden-es">Opcional</li>
+          <li class="hidden-en">A starting point</li><li class="hidden-es">Un punto de partida</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <div class="pk-n">II</div>
+        <h3><span class="hidden-en">Agreed in person</span><span class="hidden-es">Acordado en persona</span></h3>
+        <div class="sub"><span class="hidden-en">At your property</span><span class="hidden-es">En tu propiedad</span></div>
+        <p class="pk-p"><span class="hidden-en">We meet at the property, with you or someone you trust. The builder, the price and the scope are agreed there, face to face, where the real condition is in front of us. No blind quotes.</span><span class="hidden-es">Nos vemos en la propiedad, contigo o con alguien de tu confianza. El profesional, el precio y el alcance se acuerdan allí, cara a cara, donde se ve el estado real. Sin presupuestos a ciegas.</span></p>
+        <ul>
+          <li class="hidden-en">On-site visit</li><li class="hidden-es">Visita a la obra</li>
+          <li class="hidden-en">The right builder</li><li class="hidden-es">El profesional adecuado</li>
+          <li class="hidden-en">Clear scope</li><li class="hidden-es">Alcance claro</li>
+          <li class="hidden-en">Agreed face to face</li><li class="hidden-es">Acordado en persona</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <div class="pk-n">III</div>
+        <h3><span class="hidden-en">Daily progress video</span><span class="hidden-es">Vídeo diario del avance</span></h3>
+        <div class="sub"><span class="hidden-en">While the work runs</span><span class="hidden-es">Mientras avanza la obra</span></div>
+        <p class="pk-p"><span class="hidden-en">Once the job is agreed, you do not have to be there. Every day you get a video of the work, demolition, building or renovation, so you can relax knowing your home is in the right hands.</span><span class="hidden-es">Una vez cerrado el trabajo, no tienes que estar. Cada día recibes un vídeo de la obra, demolición, construcción o reforma, para que te relajes sabiendo que tu casa está en buenas manos.</span></p>
+        <ul>
+          <li class="hidden-en">A video every day</li><li class="hidden-es">Un vídeo cada día</li>
+          <li class="hidden-en">Demolition to finish</li><li class="hidden-es">De la demolición al final</li>
+          <li class="hidden-en">For owners away</li><li class="hidden-es">Para propietarios fuera</li>
+          <li class="hidden-en">Real progress</li><li class="hidden-es">Avance real</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" data-scene="3">
+    <div class="formwrap reveal">
+      <div class="kicker"><span class="hidden-en">Early access</span><span class="hidden-es">Acceso anticipado</span></div>
+      <h2><span class="hidden-en">Let us look at<br>your place.</span><span class="hidden-es">Déjanos ver<br>tu propiedad.</span></h2>
+      <p class="lead"><span class="hidden-en">Tell us a little about your property, or your trade if you are a builder who wants to work with us. We reply in person and there is no obligation.</span><span class="hidden-es">Cuéntanos algo sobre tu propiedad, o sobre tu oficio si eres profesional y quieres trabajar con nosotros. Respondemos en persona y sin compromiso.</span></p>
+      <form id="leadform">
+        <input type="text" required placeholder="Name / Nombre" id="f-name">
+        <input type="email" required placeholder="Email" id="f-email">
+        <textarea rows="3" placeholder="Your property or your trade / Tu propiedad u oficio" id="f-msg"></textarea>
+        <button type="submit" class="cta" style="justify-content:center"><span class="hidden-en">Request early access</span><span class="hidden-es">Solicitar acceso</span> →</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fbrand">Manos de <span>Confianza</span></div>
+  <div class="hidden-en">Trusted renovation and maintenance for property owners in Spain. Part of the Key4Spain network.</div>
+  <div class="hidden-es">Reformas y mantenimiento de confianza para propietarios en España. Parte de la red Key4Spain.</div>
+  <div style="margin-top:14px;opacity:.8">Valencia · Alicante · Costa Blanca &nbsp;·&nbsp; info@manosdeconfianza.es</div>
+  <div style="margin-top:10px;opacity:.6;font-size:12px"><span class="hidden-en">Invoicing by Lyfion S.L.</span><span class="hidden-es">Facturación por Lyfion S.L.</span> &nbsp;·&nbsp; © 2026 Manos de Confianza</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* language toggle */
+(function(){
+  var en=document.getElementById('btn-en'), es=document.getElementById('btn-es');
+  en.onclick=function(){document.body.classList.remove('es');en.classList.add('active');es.classList.remove('active');document.documentElement.lang='en';};
+  es.onclick=function(){document.body.classList.add('es');es.classList.add('active');en.classList.remove('active');document.documentElement.lang='es';};
+})();
+
+/* reveal on scroll */
+(function(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.16});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+})();
+
+/* before / after sliders */
+(function(){
+  document.querySelectorAll('[data-ba]').forEach(function(box){
+    var after=box.querySelector('.after');
+    var div=box.querySelector('.divider');
+    var range=box.querySelector('input[type=range]');
+    function set(v){ after.style.clipPath='inset(0 0 0 '+v+'%)'; div.style.left=v+'%'; }
+    range.addEventListener('input',function(){ set(range.value); });
+    set(range.value);
+  });
+})();
+
+/* lead form via mailto */
+document.getElementById('leadform').addEventListener('submit',function(ev){
+  ev.preventDefault();
+  var name=document.getElementById('f-name').value;
+  var email=document.getElementById('f-email').value;
+  var msg=document.getElementById('f-msg').value;
+  var body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg);
+  window.location.href='mailto:info@manosdeconfianza.es?subject='+encodeURIComponent('Early access - '+name)+'&body='+body;
+});
+
+/* renovation 3D, one scene per section, all kept off centre so the text stays clear */
+(function(){
+  var canvas=document.getElementById('bg-canvas');
+  var renderer;
+  try{ renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true}); }
+  catch(err){ return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.localClippingEnabled=true;
+
+  var scene=new THREE.Scene();
+  scene.fog=new THREE.FogExp2(0xfaf6ee,0.022);
+  var camera=new THREE.PerspectiveCamera(40,window.innerWidth/window.innerHeight,0.1,100);
+  camera.position.set(0,1.8,12.5);
+  var lookTarget=new THREE.Vector3(0,0.7,0);
+
+  scene.add(new THREE.AmbientLight(0xfff3e2,0.6));
+  var sun=new THREE.DirectionalLight(0xfff0d8,1.7);
+  sun.position.set(7,12,8); sun.castShadow=true;
+  sun.shadow.mapSize.set(1024,1024);
+  sun.shadow.camera.near=1; sun.shadow.camera.far=50;
+  sun.shadow.camera.left=-13; sun.shadow.camera.right=13; sun.shadow.camera.top=13; sun.shadow.camera.bottom=-13;
+  scene.add(sun);
+  var warm=new THREE.PointLight(0xc4974f,0.45,55); warm.position.set(-8,3,6); scene.add(warm);
+
+  var ground=new THREE.Mesh(new THREE.CircleGeometry(13,56), new THREE.MeshStandardMaterial({color:0xe9dcc4,roughness:0.96}));
+  ground.rotation.x=-Math.PI/2; ground.position.y=-1.55; ground.receiveShadow=true; scene.add(ground);
+
+  var sweepY=-1.6, sweepMin=-1.7, sweepMax=3.4, dir=1;
+  var solidClip=new THREE.Plane(new THREE.Vector3(0,-1,0), sweepY);
+  var wireClip =new THREE.Plane(new THREE.Vector3(0, 1,0), -sweepY);
+  function sMat(c,r,m){ return new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m||0.05,clippingPlanes:[solidClip],clipShadows:true}); }
+  var mWall=sMat(0xf2e9da,0.8,0.02), mSlab=sMat(0xd9c9ad,0.85,0.02), mRoof=sMat(0xb5552f,0.55,0.08),
+      mWood=sMat(0xc89a63,0.6,0.05), mDark=sMat(0x4a4540,0.5,0.35);
+  var mGlass=new THREE.MeshStandardMaterial({color:0x9fb8b6,roughness:0.15,metalness:0.5,clippingPlanes:[solidClip]});
+  var wireMat=new THREE.LineBasicMaterial({color:0xbd6038,transparent:true,opacity:0.7,clippingPlanes:[wireClip]});
+
+  function makeBuilding(){
+    var g=new THREE.Group();
+    function add(mesh){ mesh.castShadow=true; mesh.receiveShadow=true; g.add(mesh);
+      var w=new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry),wireMat);
+      w.position.copy(mesh.position); w.rotation.copy(mesh.rotation); g.add(w); return mesh; }
+    var fw=2.6, fd=2.2, fh=1.1, floors=3, base=-1.5;
+    add(new THREE.Mesh(new THREE.BoxGeometry(fw+0.3,0.16,fd+0.3),mSlab)).position.set(0,base,0);
+    for(var f=0; f<floors; f++){
+      var y=base+fh/2+f*fh;
+      add(new THREE.Mesh(new THREE.BoxGeometry(fw,fh,fd),mWall)).position.set(0,y,0);
+      add(new THREE.Mesh(new THREE.BoxGeometry(fw+0.18,0.1,fd+0.18),mSlab)).position.set(0,base+(f+1)*fh,0);
+      [-0.62,0.62].forEach(function(px){
+        add(new THREE.Mesh(new THREE.BoxGeometry(0.6,0.7,0.05),mWood)).position.set(px,y+0.05,fd/2-0.02);
+        add(new THREE.Mesh(new THREE.BoxGeometry(0.5,0.6,0.06),mGlass)).position.set(px,y+0.05,fd/2+0.01);
+      });
+    }
+    add(new THREE.Mesh(new THREE.BoxGeometry(fw+0.1,0.22,fd+0.1),mRoof)).position.set(0,base+floors*fh+0.11,0);
+    add(new THREE.Mesh(new THREE.BoxGeometry(0.55,0.9,0.08),mWood)).position.set(0,base+0.45,fd/2+0.01);
+    var topY=base+floors*fh+0.3;
+    [-(fw/2+0.28),(fw/2+0.28)].forEach(function(px){
+      add(new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.04,topY-base,10),mDark)).position.set(px,(base+topY)/2,fd/2+0.18);
+    });
+    for(var r=0;r<=floors;r++){
+      var ry=base+r*fh;
+      var rail=add(new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.035,fw+0.6,8),mDark)); rail.position.set(0,ry,fd/2+0.18); rail.rotation.z=Math.PI/2;
+      add(new THREE.Mesh(new THREE.BoxGeometry(fw+0.4,0.05,0.28),mWood)).position.set(0,ry+0.05,fd/2+0.18);
+    }
+    return g;
+  }
+
+  var groups=[];
+  var b0=makeBuilding(); b0.position.x=2.3; scene.add(b0); groups[0]=b0;
+  var b3=makeBuilding(); b3.position.set(5.0,0,0); b3.scale.setScalar(0.92); scene.add(b3); groups[3]=b3;
+
+  var scan=new THREE.Mesh(new THREE.BoxGeometry(3.6,0.04,3.0), new THREE.MeshBasicMaterial({color:0xe0a35e,transparent:true,opacity:0.85}));
+  scene.add(scan);
+
+  function makeMorphRoom(){
+    var g=new THREE.Group();
+    var wcol=new THREE.LineBasicMaterial({color:0xbd6038,transparent:true,opacity:0.5});
+    function wire(w,hh,d,x,y,z){ var m=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(w,hh,d)),wcol); m.position.set(x,y,z); g.add(m); }
+    wire(1.7,1.6,0.06,0,-0.2,-0.85); wire(0.06,1.6,1.7,-0.85,-0.2,0); wire(1.7,0.06,1.7,0,-1.0,0);
+    var solids=[], furn=[];
+    function solid(mesh,x,y,z){ mesh.material=mesh.material.clone(); mesh.material.transparent=true; mesh.material.opacity=0; mesh.castShadow=true; mesh.receiveShadow=true; mesh.position.set(x,y,z); g.add(mesh); solids.push(mesh); }
+    function furniture(mesh,x,y,z){ mesh.castShadow=true; mesh.scale.setScalar(0.001); mesh.position.set(x,y,z); g.add(mesh); furn.push(mesh); }
+    var wallM=new THREE.MeshStandardMaterial({color:0xf4ece0,roughness:0.72});
+    var floorM=new THREE.MeshStandardMaterial({color:0xc89a63,roughness:0.55});
+    solid(new THREE.Mesh(new THREE.BoxGeometry(1.7,1.6,0.08),wallM),0,-0.2,-0.85);
+    solid(new THREE.Mesh(new THREE.BoxGeometry(0.08,1.6,1.7),wallM),-0.85,-0.2,0);
+    solid(new THREE.Mesh(new THREE.BoxGeometry(1.7,0.06,1.7),floorM),0,-1.0,0);
+    furniture(new THREE.Mesh(new THREE.BoxGeometry(1.0,0.4,0.5),new THREE.MeshStandardMaterial({color:0xd8c4a8,roughness:0.8})),0,-0.78,0.25);
+    furniture(new THREE.Mesh(new THREE.BoxGeometry(0.5,0.25,0.5),new THREE.MeshStandardMaterial({color:0xc89a63,roughness:0.5})),0.05,-0.86,0.55);
+    furniture(new THREE.Mesh(new THREE.ConeGeometry(0.22,0.5,8),new THREE.MeshStandardMaterial({color:0x7f9089,roughness:0.7})),0.6,-0.5,-0.45);
+    g.userData.solids=solids; g.userData.furn=furn;
+    return g;
+  }
+  var g1=new THREE.Group(); scene.add(g1); groups[1]=g1;
+  var roomL=makeMorphRoom(); roomL.position.set(-6.7,0,0); roomL.rotation.y=0.55; roomL.scale.setScalar(0.92); g1.add(roomL);
+  var roomR=makeMorphRoom(); roomR.position.set(6.7,0,0); roomR.rotation.y=-0.55; roomR.scale.setScalar(0.92); g1.add(roomR);
+  g1.userData.roomL=roomL; g1.userData.roomR=roomR;
+
+  var g2=new THREE.Group(); g2.position.set(4.3,0,0); g2.scale.setScalar(0.9); scene.add(g2); groups[2]=g2;
+  var shellMat=new THREE.LineBasicMaterial({color:0xbd6038,transparent:true,opacity:0.55});
+  g2.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.4,2.0,2.0)),shellMat));
+  var rFloor=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.06,2.0),new THREE.MeshStandardMaterial({color:0xc89a63,roughness:0.6})); rFloor.position.y=-1.0; rFloor.receiveShadow=true; g2.add(rFloor);
+  var fillItems=[];
+  function fillItem(mesh){ mesh.castShadow=true; mesh.scale.setScalar(0.001); g2.add(mesh); fillItems.push(mesh); return mesh; }
+  fillItem(new THREE.Mesh(new THREE.BoxGeometry(1.0,0.75,0.45),new THREE.MeshStandardMaterial({color:0xf4ece0,roughness:0.6}))).position.set(-0.6,-0.6,-0.7);
+  fillItem(new THREE.Mesh(new THREE.BoxGeometry(0.9,0.4,0.5),new THREE.MeshStandardMaterial({color:0x7f9089,roughness:0.6}))).position.set(0.5,-0.78,0.4);
+  fillItem(new THREE.Mesh(new THREE.BoxGeometry(0.5,0.55,0.5),new THREE.MeshStandardMaterial({color:0xd8c4a8,roughness:0.7}))).position.set(0.75,-0.7,-0.6);
+  fillItem(new THREE.Mesh(new THREE.TorusGeometry(0.22,0.05,12,30),new THREE.MeshStandardMaterial({color:0xc4974f,metalness:0.5,roughness:0.3}))).position.set(0,0.5,0);
+  g2.userData.fill=fillItems; g2.userData.fillP=0;
+
+  var dustGeo=new THREE.BufferGeometry(); var N=60; var dpos=new Float32Array(N*3);
+  for(var i=0;i<N;i++){dpos[i*3]=(Math.random()-.5)*14;dpos[i*3+1]=Math.random()*5-1.4;dpos[i*3+2]=(Math.random()-.5)*10;}
+  dustGeo.setAttribute('position',new THREE.BufferAttribute(dpos,3));
+  var dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xc4974f,size:0.03,transparent:true,opacity:0.35}));
+  scene.add(dust);
+
+  function show(idx){ groups.forEach(function(g,i){ if(g) g.visible=(i===idx); }); scan.visible=(idx===0||idx===3); }
+  var current=0; show(0);
+
+  var sceneSecs=[].slice.call(document.querySelectorAll('section[data-scene]'));
+  function pickScene(){
+    var mid=window.scrollY+window.innerHeight/2, best=null;
+    sceneSecs.forEach(function(sec){ var top=sec.offsetTop, bot=top+sec.offsetHeight; if(mid>=top&&mid<bot){ best=sec.getAttribute('data-scene'); } });
+    if(best!==null && best!=='keep'){ var idx=parseInt(best,10); if(!isNaN(idx)&&groups[idx]&&idx!==current){ current=idx; show(idx); } }
+  }
+  window.addEventListener('scroll',pickScene,{passive:true});
+  window.addEventListener('resize',pickScene);
+  pickScene();
+
+  var mx=0,my=0;
+  window.addEventListener('mousemove',function(e){ mx=(e.clientX/window.innerWidth-.5); my=(e.clientY/window.innerHeight-.5); });
+  function easeOut(x){return 1-Math.pow(1-x,3);}
+  function applyMorph(room,p){ var e=easeOut(p); room.userData.solids.forEach(function(m){ m.material.opacity=e; }); room.userData.furn.forEach(function(m){ m.scale.setScalar(Math.max(0.001,e)); }); }
+
+  var clock=new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    var dt=Math.min(clock.getDelta(),0.05);
+    sweepY+=dir*dt*0.55;
+    if(sweepY>sweepMax){sweepY=sweepMax;dir=-1;}
+    if(sweepY<sweepMin){sweepY=sweepMin;dir=1;}
+    solidClip.constant=sweepY; wireClip.constant=-sweepY;
+    var g=groups[current];
+    if(current===0||current===3){
+      scan.position.set(g.position.x,sweepY,0);
+      scan.material.opacity=0.35+0.4*Math.abs(Math.sin(clock.elapsedTime*3));
+      g.rotation.y+=dt*0.12;
+    } else if(current===1){
+      var t1=clock.elapsedTime; var pL=0.5+0.5*Math.sin(t1*0.5);
+      applyMorph(g.userData.roomL,pL); applyMorph(g.userData.roomR,1-pL);
+    } else if(current===2){
+      var u=g.userData; u.fillP+=dt*0.16; if(u.fillP>1.35)u.fillP=0;
+      u.fill.forEach(function(it,idx){ var st=idx*0.22; var lo=Math.max(0,Math.min(1,(u.fillP-st)/0.25)); it.scale.setScalar(0.001+easeOut(lo)*0.999); });
+      g.rotation.y+=dt*0.1;
+    }
+    dust.rotation.y+=dt*0.04;
+    camera.position.x+=((mx*1.0)-camera.position.x)*0.04;
+    camera.position.y+=((1.8-my*0.7)-camera.position.y)*0.04;
+    camera.lookAt(lookTarget);
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',function(){
+    camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+})();
+</script>
+</body>
+</html>
